@@ -156,8 +156,11 @@
 
            </ul>
         </li>
-        <li class="divider"></li>
-        <li class='dropdown-header'><?php eT('Question explorer'); ?></li>
+
+        <?php if ($questionGroups): ?>
+            <li class="divider"></li>
+            <li class='dropdown-header'><?php eT('Question explorer'); ?></li>
+        <?php endif; ?>
 
         <?php foreach ($questionGroups as $group): ?>
             <li class='dropdown-submenu'>
