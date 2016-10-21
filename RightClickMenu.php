@@ -41,6 +41,30 @@ class RightClickMenu extends \ls\pluginmanager\PluginBase {
             return;
         }
 
+        $iSurveyID = $data['surveyid'];
+
+        $survey = Survey::model()->with(array(
+            'languagesettings' => array('condition'=>'surveyls_language=language'))
+        )->find('sid = :surveyid', array(':surveyid' => $data['surveyid'])); //$sumquery1, 1) ; //Checked
+        $questionGroups = QuestionGroup::model()->findAllByAttributes(array('sid' => $iSurveyID, "language" => $survey->defaultlanguage->surveyls_language),array('order'=>'group_order ASC'));
+        if(count($questionGroups))
+        {
+            foreach($questionGroups as $group)
+            {
+                $group->questions = Question::model()->findAllByAttributes(array(
+                    "sid"=>$iSurveyID,
+                    "gid"=>$group['gid'],
+                    "language"=>$survey->defaultlanguage->surveyls_language,
+                    'parent_qid' => '0'
+                ),
+                array('order'=>'question_order ASC'));
+
+                foreach($group->questions as $question)
+                {
+                    $question->question = viewHelper::flatEllipsizeText($question->question,true,60,'[...]',0.5);
+                }
+            }
+        }
         $questions = Question::model()->findAllByAttributes(array(
             'sid' => $data['surveyid'],
             'parent_qid' => '0'
@@ -57,7 +81,7 @@ class RightClickMenu extends \ls\pluginmanager\PluginBase {
             );
         }
 
-        $data['questions'] = $questions;
+        $data['questionGroups'] = $questionGroups;
 
         $content = $this->renderPartial('testmenu', $data, true);
         echo $content;
