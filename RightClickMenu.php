@@ -23,9 +23,10 @@ class RightClickMenu extends \ls\pluginmanager\PluginBase {
      */
     public function beforeControllerAction()
     {
-        $assetsUrl = Yii::app()->assetManager->publish(dirname(__FILE__) . '/js');
-        App()->clientScript->registerScriptFile("$assetsUrl/bootstrap-contextmenu.js");
-        App()->clientScript->registerScriptFile("$assetsUrl/rightclickmenu.js");
+        $assetsUrl = Yii::app()->assetManager->publish(dirname(__FILE__));
+        App()->clientScript->registerScriptFile("$assetsUrl/js/bootstrap-contextmenu.js");
+        App()->clientScript->registerScriptFile("$assetsUrl/js/rightclickmenu.js");
+        App()->clientScript->registerCssFile("$assetsUrl/css/submenu.css");
     }
 
     /**
