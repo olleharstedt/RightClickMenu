@@ -37,7 +37,11 @@ class RightClickMenu extends \ls\pluginmanager\PluginBase {
         $event = $this->getEvent();
         $data = $event->get('data');
 
+        // No survey id = no question explorer
         if (!isset($data['surveyid'])) {
+            $data = array('questionGroups' => array());
+            $content = $this->renderPartial('testmenu', $data, true);
+            echo $content;
             return;
         }
 
