@@ -74,6 +74,8 @@ class RightClickMenu extends \ls\pluginmanager\PluginBase {
             'parent_qid' => '0'
         ));
 
+        $qtypelist = getQuestionTypeList('', 'array');
+
         foreach ($questions as $question) {
             $data['questionurls'][$question->qid] = $this->api->createUrl(
                 '/admin/questions',
@@ -83,6 +85,7 @@ class RightClickMenu extends \ls\pluginmanager\PluginBase {
                     'qid' => $question->qid
                 )
             );
+            $data['typeDescriptions'][$question->qid] = $qtypelist[$question->type];
         }
 
         $data['questionGroups'] = $questionGroups;

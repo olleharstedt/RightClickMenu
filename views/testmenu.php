@@ -171,6 +171,7 @@
                             <a href='<?php echo $questionurls[$question->qid]; ?>'><?php echo $question->title; ?></a>
                             <ul class='dropdown-menu'>
                                 <li class='dropdown-header'><?php echo ellipsize($question->question, true, 30); ?></li>
+                                <li class='dropdown-header'><?php echo $typeDescriptions[$question->qid]['description']; ?></li>
                                 <li><a><span class='fa fa-list-alt'></span>&nbsp;Summary</a></li>
                                 <li><a><span class='icon-edit'></span>&nbsp;Edit</a></li>
                                 <li><a><span class='icon-conditions'></span>&nbsp;Set conditions</a></li>
