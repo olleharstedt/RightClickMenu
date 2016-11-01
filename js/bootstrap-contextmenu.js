@@ -36,10 +36,6 @@
 		constructor: ContextMenu
 		,show: function(e) {
 
-            if (e.which != 2) {
-                return;
-            }
-
 			var $menu
 				, evt
 				, tp
@@ -111,9 +107,8 @@
 		}
 
 		,listen: function () {
-			//this.$element.on('click', this.scopes, $.proxy(this.show, this));
-			this.$element.on('click', this.scopes, $.proxy(this.show, this));
-			//$('html').on('click.context.data-api', $.proxy(this.closemenu, this));
+			this.$element.on('contextmenu.context.data-api', this.scopes, $.proxy(this.show, this));
+			$('html').on('click.context.data-api', $.proxy(this.closemenu, this));
 			$('html').on('keydown.context.data-api', $.proxy(this.keydown, this));
 		}
 
@@ -195,7 +190,7 @@
 	 * =================================== */
 
 	$(document)
-	   .on('contextmenu.context.data-api, click.context.data-api', function() {
+	   .on('contextmenu.context.data-api', function() {
 			$(toggle).each(function () {
 				var data = $(this).data('context');
 				if (!data) return;
@@ -203,10 +198,10 @@
 			});
 		})
 		.on('contextmenu.context.data-api', toggle, function(e) {
-			//$(this).contextmenu('show', e);
+			$(this).contextmenu('show', e);
 
-			//e.preventDefault();
-			//e.stopPropagation();
+			e.preventDefault();
+			e.stopPropagation();
 		});
 		
 }(jQuery));
