@@ -127,6 +127,18 @@ class RightClickMenu extends \ls\pluginmanager\PluginBase {
                 )
             );
 
+            if ($qtypelist[$question->type]['hasdefaultvalues'] > 0) {
+                $data['defaultAnswersUrls'][$question->qid] = $this->api->createUrl(
+                    'admin/questions',
+                    array(
+                        'sa' => 'editdefaultvalues',
+                        'surveyid' => $data['surveyid'],
+                        'gid' => $question->gid,
+                        'qid' => $question->qid
+                    )
+                );
+            }
+
             $data['typeDescriptions'][$question->qid] = $qtypelist[$question->type];
         }
 

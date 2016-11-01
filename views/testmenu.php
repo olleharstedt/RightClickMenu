@@ -180,6 +180,9 @@
                                         onclick="return confirm('<?php eT("Deleting this question will also delete any answer options and subquestions it includes. Are you sure you want to continue?","js"); ?>');"
                                     >
                                     <span class='fa fa-trash text-warning'></span>&nbsp;Delete</a></li>
+                                <?php if (isset($defaultAnswersUrls[$question->qid])): ?>
+                                    <li><a href='<?php echo $defaultAnswersUrls[$question->qid]; ?>'><span class='icon-defaultanswers'></span>&nbsp;<?php eT('Edit default answers'); ?></a></li>
+                                <?php endif; ?>
                             </ul>
                         </li>
                     <?php endforeach; ?>
