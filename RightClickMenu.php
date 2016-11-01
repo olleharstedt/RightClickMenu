@@ -139,6 +139,30 @@ class RightClickMenu extends \ls\pluginmanager\PluginBase {
                 );
             }
 
+            if ($qtypelist[$question->type]['subquestions'] > 0) {
+                $data['subquestionsUrls'][$question->qid] = $this->api->createUrl(
+                    'admin/questions',
+                    array(
+                        'sa' => 'subquestions',
+                        'surveyid' => $data['surveyid'],
+                        'qid' => $question->qid,
+                        'gid' => $question->gid
+                    )
+                );
+            }
+
+            if ($qtypelist[$question->type]['answerscales'] > 0) {
+                $data['answerOptionsUrls'][$question->qid] = $this->api->createUrl(
+                    'admin/questions',
+                    array(
+                        'sa' => 'answeroptions',
+                        'surveyid' => $data['surveyid'],
+                        'qid' => $question->qid,
+                        'gid' => $question->gid
+                    )
+                );
+            }
+
             $data['typeDescriptions'][$question->qid] = $qtypelist[$question->type];
         }
 
