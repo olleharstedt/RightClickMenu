@@ -172,10 +172,17 @@
                             <ul class='dropdown-menu'>
                                 <li class='dropdown-header'><?php echo ellipsize($question->question, true, 30); ?></li>
                                 <li class='dropdown-header'><?php echo $typeDescriptions[$question->qid]['description']; ?></li>
-                                <li><a><span class='fa fa-list-alt'></span>&nbsp;Summary</a></li>
+                                <li><a href='<?php echo $questionurls[$question->qid]; ?>'><span class='fa fa-list-alt'></span>&nbsp;Summary</a></li>
                                 <li><a href='<?php echo $editurls[$question->qid]; ?>'><span class='icon-edit'></span>&nbsp;Edit</a></li>
-                                <li><a><span class='icon-conditions'></span>&nbsp;Set conditions</a></li>
-                                <li><a><span class='fa fa-trash text-warning'></span>&nbsp;Delete</a></li>
+                                <li><a href='<?php echo $conditionsUrls[$question->qid]; ?>'><span class='icon-conditions'></span>&nbsp;Set conditions</a></li>
+                                <li><a
+                                        data-toggle="modal"
+                                        href="<?php echo $deleteUrls[$question->qid]; ?>"
+                                        data-href="<?php echo $deleteUrls[$question->qid]; ?>"
+                                        data-target="#confirmation-modal"
+                                        data-message="<?php eT("Deleting this question will also delete any answer options and subquestions it includes. Are you sure you want to continue?","js"); ?>"
+                                    >
+                                    <span class='fa fa-trash text-warning'></span>&nbsp;Delete</a></li>
                             </ul>
                         </li>
                     <?php endforeach; ?>

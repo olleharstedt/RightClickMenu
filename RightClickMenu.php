@@ -87,6 +87,17 @@ class RightClickMenu extends \ls\pluginmanager\PluginBase {
             );
 
             $data['editurls'][$question->qid] = $this->api->createUrl(
+                '/admin/conditions',
+                array(
+                    'sa' => 'index',
+                    'subaction' => 'editconditionsform',
+                    'surveyid' => $data['surveyid'],
+                    'qid' => $question->qid,
+                    'gid' => $question->gid
+                )
+            );
+
+            $data['conditionsUrls'][$question->qid] = $this->api->createUrl(
                 '/admin/questions',
                 array(
                     'sa' => 'editquestion',
@@ -95,6 +106,17 @@ class RightClickMenu extends \ls\pluginmanager\PluginBase {
                     'gid' => $question->gid
                 )
             );
+
+            $data['deleteUrls'][$question->qid] = $this->api->createUrl(
+                'admin/questions/',
+                array(
+                    'sa' => 'delete',
+                    'surveyid' => $data['surveyid'],
+                    'gid' => $question->gid,
+                    'qid' => $question->qid,
+                )
+            );
+
             $data['typeDescriptions'][$question->qid] = $qtypelist[$question->type];
         }
 
