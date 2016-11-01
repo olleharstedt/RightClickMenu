@@ -164,7 +164,7 @@
 
         <?php foreach ($questionGroups as $group): ?>
             <li class='dropdown-submenu'>
-                <a tabindex='-1'><?php echo $group->group_name; ?></a>
+                <a tabindex='-1' href='<?php echo $groupUrls[$group->gid]; ?>'><?php echo $group->group_name; ?></a>
                 <ul class='dropdown-menu'>
                     <?php foreach ($group->questions as $question): ?>
                         <li class='dropdown-submenu'>

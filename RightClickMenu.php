@@ -67,6 +67,16 @@ class RightClickMenu extends \ls\pluginmanager\PluginBase {
                 {
                     $question->question = viewHelper::flatEllipsizeText($question->question,true,60,'[...]',0.5);
                 }
+
+                $data['groupUrls'][$group->gid] = $this->api->createUrl(
+                    'admin/questiongroups',
+                    array(
+                        'sa' => 'view',
+                        'surveyid' => $data['surveyid'],
+                        'gid' => $group->gid
+                    )
+                );
+
             }
         }
         $questions = Question::model()->findAllByAttributes(array(
