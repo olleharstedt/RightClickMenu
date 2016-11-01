@@ -85,6 +85,16 @@ class RightClickMenu extends \ls\pluginmanager\PluginBase {
                     'qid' => $question->qid
                 )
             );
+
+            $data['editurls'][$question->qid] = $this->api->createUrl(
+                '/admin/questions',
+                array(
+                    'sa' => 'editquestion',
+                    'surveyid' => $data['surveyid'],
+                    'qid' => $question->qid,
+                    'gid' => $question->gid
+                )
+            );
             $data['typeDescriptions'][$question->qid] = $qtypelist[$question->type];
         }
 
