@@ -97,10 +97,9 @@ class RightClickMenu extends \ls\pluginmanager\PluginBase {
             );
 
             $data['editurls'][$question->qid] = $this->api->createUrl(
-                '/admin/conditions',
+                '/admin/questions',
                 array(
-                    'sa' => 'index',
-                    'subaction' => 'editconditionsform',
+                    'sa' => 'editquestion',
                     'surveyid' => $data['surveyid'],
                     'qid' => $question->qid,
                     'gid' => $question->gid
@@ -108,9 +107,10 @@ class RightClickMenu extends \ls\pluginmanager\PluginBase {
             );
 
             $data['conditionsUrls'][$question->qid] = $this->api->createUrl(
-                '/admin/questions',
+                '/admin/conditions',
                 array(
-                    'sa' => 'editquestion',
+                    'sa' => 'index',
+                    'subaction' => 'editconditionsform',
                     'surveyid' => $data['surveyid'],
                     'qid' => $question->qid,
                     'gid' => $question->gid
