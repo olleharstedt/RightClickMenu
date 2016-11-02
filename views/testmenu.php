@@ -1,6 +1,7 @@
   <!-- Your custom menu with dropdown-menu as default styling -->
 <div id="context-menu">
     <ul class="dropdown-menu" role="menu">
+        <li class='dropdown-header'>Admin settings</li>
         <li class='dropdown-submenu'>
             <a tabindex="-1">
                 <span class="icon-tools" ></span>&nbsp;
@@ -181,5 +182,20 @@
                 </ul>
             </li>
         <?php endforeach; ?>
+
+        <li class="divider"></li>
+        <li class='dropdown-header'>
+            <?php echo Yii::app()->session['user']; ?>
+        </li>
+        <li>
+            <a href="<?php echo $this->createUrl("/admin/user/sa/personalsettings"); ?>"><?php eT("Your account");?></a>
+        </li>
+
+        <!-- Logout -->
+        <li>
+            <a href="<?php echo $this->createUrl("/admin/authentication/sa/logout"); ?>">
+                <?php eT("Logout");?>
+            </a>
+        </li>
     </ul>
 </div>
