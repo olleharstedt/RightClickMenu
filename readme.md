@@ -1,3 +1,3 @@
 Right-click menu
 
-![Picture right-click-menu][assets/rightclickmenu.png]
+![Picture right-click-menu](assets/rightclickmenu.png)
