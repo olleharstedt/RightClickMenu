@@ -67,12 +67,24 @@ class RightClickMenu extends \ls\pluginmanager\PluginBase {
                 {
                     $question->question = viewHelper::flatEllipsizeText($question->question,true,60,'[...]',0.5);
                 }
+
+                $data['groupUrls'][$group->gid] = $this->api->createUrl(
+                    'admin/questiongroups',
+                    array(
+                        'sa' => 'view',
+                        'surveyid' => $data['surveyid'],
+                        'gid' => $group->gid
+                    )
+                );
+
             }
         }
         $questions = Question::model()->findAllByAttributes(array(
             'sid' => $data['surveyid'],
             'parent_qid' => '0'
         ));
+
+        $qtypelist = getQuestionTypeList('', 'array');
 
         foreach ($questions as $question) {
             $data['questionurls'][$question->qid] = $this->api->createUrl(
@@ -83,6 +95,75 @@ class RightClickMenu extends \ls\pluginmanager\PluginBase {
                     'qid' => $question->qid
                 )
             );
+
+            $data['editurls'][$question->qid] = $this->api->createUrl(
+                '/admin/questions',
+                array(
+                    'sa' => 'editquestion',
+                    'surveyid' => $data['surveyid'],
+                    'qid' => $question->qid,
+                    'gid' => $question->gid
+                )
+            );
+
+            $data['conditionsUrls'][$question->qid] = $this->api->createUrl(
+                '/admin/conditions',
+                array(
+                    'sa' => 'index',
+                    'subaction' => 'editconditionsform',
+                    'surveyid' => $data['surveyid'],
+                    'qid' => $question->qid,
+                    'gid' => $question->gid
+                )
+            );
+
+            $data['deleteUrls'][$question->qid] = $this->api->createUrl(
+                'admin/questions/',
+                array(
+                    'sa' => 'delete',
+                    'surveyid' => $data['surveyid'],
+                    'gid' => $question->gid,
+                    'qid' => $question->qid,
+                )
+            );
+
+            if ($qtypelist[$question->type]['hasdefaultvalues'] > 0) {
+                $data['defaultAnswersUrls'][$question->qid] = $this->api->createUrl(
+                    'admin/questions',
+                    array(
+                        'sa' => 'editdefaultvalues',
+                        'surveyid' => $data['surveyid'],
+                        'gid' => $question->gid,
+                        'qid' => $question->qid
+                    )
+                );
+            }
+
+            if ($qtypelist[$question->type]['subquestions'] > 0) {
+                $data['subquestionsUrls'][$question->qid] = $this->api->createUrl(
+                    'admin/questions',
+                    array(
+                        'sa' => 'subquestions',
+                        'surveyid' => $data['surveyid'],
+                        'qid' => $question->qid,
+                        'gid' => $question->gid
+                    )
+                );
+            }
+
+            if ($qtypelist[$question->type]['answerscales'] > 0) {
+                $data['answerOptionsUrls'][$question->qid] = $this->api->createUrl(
+                    'admin/questions',
+                    array(
+                        'sa' => 'answeroptions',
+                        'surveyid' => $data['surveyid'],
+                        'qid' => $question->qid,
+                        'gid' => $question->gid
+                    )
+                );
+            }
+
+            $data['typeDescriptions'][$question->qid] = $qtypelist[$question->type];
         }
 
         $data['questionGroups'] = $questionGroups;
