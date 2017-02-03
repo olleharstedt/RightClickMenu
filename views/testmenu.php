@@ -1,6 +1,21 @@
   <!-- Your custom menu with dropdown-menu as default styling -->
 <div id="context-menu">
     <ul class="dropdown-menu" role="menu">
+
+        <!-- Copy, paste, cut -->
+        <li class='dropdown-header'><?php eT('Edit'); ?></li>
+        <li>
+            <a id='right-click-menu-copy' href="#"><span class='fa fa-clone'></span>&nbsp;<?php eT("Copy");?></a>
+        </li>
+        <li>
+            <a id='right-click-menu-paste' href="#"><span class='fa fa-clipboard'></span>&nbsp;<?php eT("Paste");?></a>
+        </li>
+        <li>
+            <a id='right-click-menu-cut' href="#"><span class='fa fa-scissors'></span>&nbsp;<?php eT("Cut");?></a>
+        </li>
+
+        <li class="divider"></li>
+
         <li class='dropdown-header'>Admin settings</li>
         <li class='dropdown-submenu'>
             <a tabindex="-1">
@@ -8,15 +23,15 @@
                 Advanced
             </a>
             <ul class='dropdown-menu'>
-                <?php if(Permission::model()->hasGlobalPermission('templates','read')): ?>
+                <?php if(Permission::model()->hasGlobalPermission('templates', 'read')): ?>
                     <!-- Template Editor -->
                     <li class="dropdown-item">
                         <a href="<?php echo $this->createUrl("/admin/templates/sa/view"); ?>">
                             <?php eT("Template editor");?>
                         </a>
                     </li>
-                    <?php endif;?>
-                <?php if(Permission::model()->hasGlobalPermission('labelsets','read')): ?>
+                    <?php endif; ?>
+                <?php if(Permission::model()->hasGlobalPermission('labelsets', 'read')): ?>
                     <!-- Edit label sets -->
                     <li class="dropdown-item">
                         <a href="<?php echo $this->createUrl("/admin/labels/sa/view"); ?>">
@@ -26,7 +41,7 @@
                     <?php endif;?>
 
                 <!-- Check Data Integrity -->
-                <?php if(Permission::model()->hasGlobalPermission('superadmin','read')): ?>
+                <?php if(Permission::model()->hasGlobalPermission('superadmin', 'read')): ?>
 
                     <li class="dropdown-item">
                         <a href="<?php echo $this->createUrl("/admin/checkintegrity"); ?>">
