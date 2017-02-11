@@ -23,6 +23,14 @@ class RightClickMenu extends \ls\pluginmanager\PluginBase
      */
     public function init()
     {
+        $config = include Yii::app()->basePath . '/config/version.php';
+        $this->lsVersion = $config['versionnumber'];
+
+        if ((version_compare($this->lsVersion, '2.62.3')) === -1) {
+            App()->setFlashMessage('Plugin right-click menu requires at least version 2.62.3', 'error');
+            return;
+        }
+
         $this->subscribe('beforeControllerAction');
         $this->subscribe('beforeAdminMenuRender');
     }
