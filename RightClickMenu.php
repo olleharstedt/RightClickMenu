@@ -1,15 +1,25 @@
 <?php
 
-class RightClickMenu extends \ls\pluginmanager\PluginBase {
-
-    protected $storage = 'DbStorage';
-    static protected $description = 'Adds a right-click menu to LimeSurvey';
-    static protected $name = 'Right-click menu';
-
+class RightClickMenu extends \ls\pluginmanager\PluginBase
+{
 
     /**
-     * 
-     * @return 
+     * @var string
+     */
+    protected $storage = 'DbStorage';
+
+    /**
+     * @var string
+     */
+    static protected $description = 'Adds a right-click menu to LimeSurvey';
+
+    /**
+     * @var string
+     */
+    static protected $name = 'Right-click menu';
+
+    /**
+     * @return void
      */
     public function init()
     {
@@ -18,8 +28,7 @@ class RightClickMenu extends \ls\pluginmanager\PluginBase {
     }
 
     /**
-     * 
-     * @return 
+     * @return void
      */
     public function beforeControllerAction()
     {
@@ -34,7 +43,7 @@ class RightClickMenu extends \ls\pluginmanager\PluginBase {
     }
 
     /**
-     * @return 
+     * @return void
      */
     public function beforeAdminMenuRender()
     {
@@ -49,27 +58,29 @@ class RightClickMenu extends \ls\pluginmanager\PluginBase {
             return;
         }
 
-        $iSurveyID = $data['surveyid'];
+        $surveyId = $data['surveyid'];
 
-        $survey = Survey::model()->with(array(
-            'languagesettings' => array('condition'=>'surveyls_language=language'))
-        )->find('sid = :surveyid', array(':surveyid' => $data['surveyid'])); //$sumquery1, 1) ; //Checked
-        $questionGroups = QuestionGroup::model()->findAllByAttributes(array('sid' => $iSurveyID, "language" => $survey->defaultlanguage->surveyls_language),array('order'=>'group_order ASC'));
-        if(count($questionGroups))
-        {
-            foreach($questionGroups as $group)
-            {
-                $group->questions = Question::model()->findAllByAttributes(array(
-                    "sid"=>$iSurveyID,
-                    "gid"=>$group['gid'],
-                    "language"=>$survey->defaultlanguage->surveyls_language,
-                    'parent_qid' => '0'
-                ),
-                array('order'=>'question_order ASC'));
+        $survey = $this->getSurvey($surveyId);
 
-                foreach($group->questions as $question)
-                {
-                    $question->question = viewHelper::flatEllipsizeText($question->question,true,60,'[...]',0.5);
+        $questionGroups = $this->getGroups($survey);
+
+        if ($questionGroups) {
+            if (count($questionGroups) > 20) {
+                $data['groupChunk'] = array_chunk($questionGroups, 20);
+            }
+            foreach ($questionGroups as $group) {
+                $group->questions = Question::model()->findAllByAttributes(
+                    array(
+                        "sid"        =>$surveyId,
+                        "gid"        =>$group['gid'],
+                        "language"   =>$survey->defaultlanguage->surveyls_language,
+                        'parent_qid' => '0'
+                    ),
+                    array('order'=>'question_order ASC')
+                );
+
+                foreach ($group->questions as $question) {
+                    $question->question = viewHelper::flatEllipsizeText($question->question, true, 60, '[...]', 0.5);
                 }
 
                 $data['groupUrls'][$group->gid] = $this->api->createUrl(
@@ -83,6 +94,7 @@ class RightClickMenu extends \ls\pluginmanager\PluginBase {
 
             }
         }
+
         $questions = Question::model()->findAllByAttributes(array(
             'sid' => $data['surveyid'],
             'parent_qid' => '0'
@@ -174,5 +186,21 @@ class RightClickMenu extends \ls\pluginmanager\PluginBase {
 
         $content = $this->renderPartial('testmenu', $data, true);
         echo $content;
+    }
+
+    protected function getSurvey($sid)
+    {
+        return Survey::model()
+            ->with(array('languagesettings' => array('condition'=>'surveyls_language=language')))
+            ->find('sid = :surveyid', array(':surveyid' => $sid)); //$sumquery1, 1) ; //Checked
+    }
+
+    protected function getGroups($survey)
+    {
+        return QuestionGroup::model()
+            ->findAllByAttributes(
+                array('sid' => $survey->sid, "language" => $survey->defaultlanguage->surveyls_language),
+                array('order'=>'group_order ASC')
+            );
     }
 }
