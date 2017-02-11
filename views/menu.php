@@ -179,7 +179,18 @@
         <?php endif; ?>
 
         <?php foreach ($questionGroups as $group) : ?>
-            <?php $this->plugin->renderPartial('questionGroup'); ?>
+            <?php $plugin->renderPartial(
+                'questionGroup',
+                array(
+                    'groupUrls' => $groupUrls,
+                    'questionurls' => $questionurls,
+                    'editurls' => $editurls,
+                    'conditionsUrls' => $conditionsUrls,
+                    'deleteUrls' => $deleteUrls,
+                    'group' => $group,
+                    'typeDescriptions' => $typeDescriptions
+                )
+            ); ?>
         <?php endforeach; ?>
 
         <li class="divider"></li>

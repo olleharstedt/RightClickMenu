@@ -53,7 +53,7 @@ class RightClickMenu extends \ls\pluginmanager\PluginBase
         // No survey id = no question explorer
         if (!isset($data['surveyid'])) {
             $data = array('questionGroups' => array());
-            $content = $this->renderPartial('testmenu', $data, true);
+            $content = $this->renderPartial('menu', $data, true);
             echo $content;
             return;
         }
@@ -184,7 +184,7 @@ class RightClickMenu extends \ls\pluginmanager\PluginBase
 
         $data['questionGroups'] = $questionGroups;
 
-        $content = $this->renderPartial('testmenu', $data, true);
+        $content = $this->renderPartial('menu', $data, true);
         echo $content;
     }
 
