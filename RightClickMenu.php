@@ -53,6 +53,7 @@ class RightClickMenu extends \ls\pluginmanager\PluginBase
         // No survey id = no question explorer
         if (!isset($data['surveyid'])) {
             $data = array('questionGroups' => array());
+            $data['groupChunks'] = array();
             $content = $this->renderPartial('menu', $data, true);
             echo $content;
             return;
@@ -68,8 +69,6 @@ class RightClickMenu extends \ls\pluginmanager\PluginBase
 
             if (count($questionGroups) > 15) {
                 $data['groupChunks'] = array_chunk($questionGroups, 15);
-            } else {
-                $data['groupChunks'] = null;
             }
 
             foreach ($questionGroups as $group) {

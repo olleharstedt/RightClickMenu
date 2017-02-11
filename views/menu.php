@@ -179,7 +179,7 @@
         <?php endif; ?>
 
         <?php if ($groupChunks) : ?>
-            <?php foreach ($groupChunks as $i => $chunk): ?>
+            <?php foreach ($groupChunks as $i => $chunk) : ?>
                 <li class='dropdown-submenu'>
                     <a tabindex='-1' href=''><?php eT('Question groups'); ?><?php printf(' %d/%d', $i + 1, count($groupChunks)); ?></a>
                     <ul class='dropdown-menu'>
