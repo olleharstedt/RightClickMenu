@@ -178,20 +178,44 @@
             <li class='dropdown-header'><?php eT('Question explorer'); ?></li>
         <?php endif; ?>
 
-        <?php foreach ($questionGroups as $group) : ?>
-            <?php $plugin->renderPartial(
-                'questionGroup',
-                array(
-                    'groupUrls' => $groupUrls,
-                    'questionurls' => $questionurls,
-                    'editurls' => $editurls,
-                    'conditionsUrls' => $conditionsUrls,
-                    'deleteUrls' => $deleteUrls,
-                    'group' => $group,
-                    'typeDescriptions' => $typeDescriptions
-                )
-            ); ?>
-        <?php endforeach; ?>
+        <?php if ($groupChunks) : ?>
+            <?php foreach ($groupChunks as $i => $chunk): ?>
+                <li class='dropdown-submenu'>
+                    <a tabindex='-1' href=''><?php eT('Question groups'); ?><?php printf(' %d/%d', $i + 1, count($groupChunks)); ?></a>
+                    <ul class='dropdown-menu'>
+                        <?php foreach ($chunk as $group) : ?>
+                            <?php $plugin->renderPartial(
+                                'questionGroup',
+                                array(
+                                    'groupUrls' => $groupUrls,
+                                    'questionurls' => $questionurls,
+                                    'editurls' => $editurls,
+                                    'conditionsUrls' => $conditionsUrls,
+                                    'deleteUrls' => $deleteUrls,
+                                    'group' => $group,
+                                    'typeDescriptions' => $typeDescriptions
+                                )
+                            ); ?>
+                        <?php endforeach; ?>
+                    </ul>
+                </li>
+            <?php endforeach; ?>
+        <?php else: ?>
+            <?php foreach ($questionGroups as $group) : ?>
+                <?php $plugin->renderPartial(
+                    'questionGroup',
+                    array(
+                        'groupUrls' => $groupUrls,
+                        'questionurls' => $questionurls,
+                        'editurls' => $editurls,
+                        'conditionsUrls' => $conditionsUrls,
+                        'deleteUrls' => $deleteUrls,
+                        'group' => $group,
+                        'typeDescriptions' => $typeDescriptions
+                    )
+                ); ?>
+            <?php endforeach; ?>
+        <?php endif; ?>
 
         <li class="divider"></li>
         <li class='dropdown-header'>
