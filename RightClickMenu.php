@@ -57,6 +57,7 @@ class RightClickMenu extends \ls\pluginmanager\PluginBase
     {
         $event = $this->getEvent();
         $data = $event->get('data');
+        $data['groupChunks'] = array();
 
         // No survey id = no question explorer
         if (!isset($data['surveyid'])) {
@@ -106,13 +107,28 @@ class RightClickMenu extends \ls\pluginmanager\PluginBase
             }
         }
 
-        $questions = Question::model()->findAllByAttributes(array(
-            'sid' => $data['surveyid'],
-            'parent_qid' => '0'
-        ));
+        $questions = Question::model()->findAllByAttributes(
+            array(
+                'sid' => $data['surveyid'],
+                'parent_qid' => '0'
+            )
+        );
 
+
+        $this->createUrls($questions, $data);
+
+        $data['questionGroups'] = $questionGroups;
+
+        $content = $this->renderPartial('menu', $data, true);
+        echo $content;
+    }
+
+    /**
+     * Create URLs for question menu buttons
+     */
+    protected function createUrls($questions, &$data)
+    {
         $qtypelist = getQuestionTypeList('', 'array');
-
         foreach ($questions as $question) {
             $data['questionurls'][$question->qid] = $this->api->createUrl(
                 '/admin/questions',
@@ -192,11 +208,6 @@ class RightClickMenu extends \ls\pluginmanager\PluginBase
 
             $data['typeDescriptions'][$question->qid] = $qtypelist[$question->type];
         }
-
-        $data['questionGroups'] = $questionGroups;
-
-        $content = $this->renderPartial('menu', $data, true);
-        echo $content;
     }
 
     protected function getSurvey($sid)
