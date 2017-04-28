@@ -129,6 +129,11 @@ class RightClickMenu extends \ls\pluginmanager\PluginBase
     protected function createUrls($questions, &$data)
     {
         $qtypelist = getQuestionTypeList('', 'array');
+        $data['questionurls'] = array();
+        $data['editurls'] = array();
+        $data['conditionsUrls'] = array();
+        $data['deleteUrls'] = array();
+        $data['typeDescriptions'] = array();
         foreach ($questions as $question) {
             $data['questionurls'][$question->qid] = $this->api->createUrl(
                 '/admin/questions',
